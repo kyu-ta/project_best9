@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}ベスト9新規作成{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('main.bestnine_create') }}" method="POST">
+        <label class="d-block mb-0">あなたの考えるベスト9</label>
+        <input type="text" name="bestnine_name" placeholder="名前をつけてください">
+        <p></p>
+        {% for position in positions %}
+            <label class="d-block mb-0">{{ position.name }}</label>
+            <select name="player_{{ position.id }}">
+                {% for player in position.players %}
+                    <option value="{{ player.id }}">{{ player.name }}</option>
+                {% endfor %}
+            </select>
+        {% endfor %}
+        <p></p>
+        <button type="submit">新規作成</button>
+    </form>    
+{% endblock %}

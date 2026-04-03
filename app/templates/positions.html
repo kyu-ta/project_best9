@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}ポジション一覧{% endblock %}
+
+{% block content %}
+    <h1>ポジション一覧</h1>
+    
+    <div class="list-group">
+        {% for position in positions %}
+            <div class="list-group-item">
+                <a href="{{ url_for('main.position', id=position.id) }}">{{ position.name }}</a>
+            </div>
+        {% endfor %}     
+    </div>   
+{% endblock %}

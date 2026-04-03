@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <nav>
+            <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-sm">ホームへ戻る</a>
+            <a href="{{ url_for('main.players') }}" class="btn btn-primary btn-sm">選手一覧へ</a>
+            <a href="{{ url_for('main.teams') }}" class="btn btn-primary btn-sm">チーム一覧へ</a>
+            <a href="{{ url_for('main.positions') }}" class="btn btn-primary btn-sm">ポジション一覧へ</a>
+            <a href="{{ url_for('main.bestnine_create') }}" class="btn btn-primary btn-sm">ベスト9作成</a>
+        </nav>
+        
+        <hr>
+        
+        {% block content %}
+        {% endblock %}
+
+    
+    </div>
+</body>
+</html>

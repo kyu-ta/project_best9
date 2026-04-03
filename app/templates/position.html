@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ position.name }}の選手一覧{% endblock %}
+
+{% block content %}
+    <h1>{{ position.name }}の選手一覧</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>選手</th>
+                <th>チーム</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in position.players %}
+                <tr>
+                    <td><a href="{{ url_for('main.player', id=player.id )}}">{{ player.name }}</a></td>
+                    <td><a href="{{ url_for('main.team', id=player.team.id )}}">{{ player.team.name }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
