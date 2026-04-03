@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from app.models import Player, Team, Position, BestNine, BestNineSlot
 from app import db
 
-main = Blueprint("main", __name__)
+main = Blueprint("main", __name__, url_prefix="/main")
 
 @main.route("/")
 def home():
@@ -39,7 +39,7 @@ def position(id):
     players = position.players
     return render_template("position.html", position=position, players=players)
 
-@main.route("/bestnine/create", methods=["POST", "GET"])
+@main.route("/bestnine/create", methods=["GET", "POST"])
 def bestnine_create():
     positions = Position.query.all()
 

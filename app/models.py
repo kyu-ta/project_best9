@@ -1,11 +1,13 @@
 from app import db
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Team(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False, unique=True)
+    name = Column(String(20), unique=True, nullable=False)
 
     players = relationship("Player", backref="team", lazy="select")
     
@@ -14,7 +16,7 @@ class Team(db.Model):
 
 class Position(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False, unique=True)
+    name = Column(String(20), unique=True, nullable=False)
 
     players  = relationship("Player", backref="position", lazy="select")
     best_nine_slots = relationship("BestNineSlot", backref="position", lazy="select")
@@ -24,7 +26,7 @@ class Position(db.Model):
 
 class Player(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
+    name = Column(String(50), unique=True, nullable=False)
 
     team_id = Column(Integer, ForeignKey("team.id"), nullable=False)
     position_id = Column(Integer, ForeignKey("position.id"), nullable=False)
@@ -54,12 +56,18 @@ class BestNineSlot(db.Model):
     def __repr__(self):
         return f"<{self.__class__.__name__}(id={self.id})>"
                                                                   
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
-    username = Column(String(50), nullable=False)
-    password_hash = Column(String())
+    username = Column(String(50), unique=True, nullable=False)
+    password_hash = Column(String(128), nullable=False)
 
     best_nine_id = relationship("BestNine", backref="user", lazy="select")
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"<{self.__class__.__name__}(id={self.id}, username='{self.username}')>"

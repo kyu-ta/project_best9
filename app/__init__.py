@@ -1,14 +1,7 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.theme import Bootstrap4Theme
 from config import Config
-from flask_migrate import Migrate
-
-db = SQLAlchemy()
-migrate = Migrate()
-admin = Admin(name="管理画面", theme=Bootstrap4Theme())
+from extensions import db, migrate, admin, login_manager
 
 def create_app():
     app = Flask(__name__)
@@ -18,9 +11,14 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     admin.init_app(app)
+    login_manager.init_app(app)
+
+    login_manager.login_view = "auth.login"
 
     from .routes import main
     app.register_blueprint(main)
+    from .auth import auth
+    app.register_blueprint(auth)
     
     from app import models
     target_models = [models.Team, models.Position, models.Player, models.BestNine, models.BestNineSlot]
