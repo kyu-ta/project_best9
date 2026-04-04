@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username() }}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}    
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password() }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}     
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <p>未登録の方は<a href="{{ url_for('auth.signup') }}">こちら</a>で登録してください</p>
+
+{% endblock %}

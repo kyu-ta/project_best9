@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 from config import Config
-from extensions import db, migrate, admin, login_manager
+from .extensions import db, migrate, admin, login_manager
 
 def create_app():
     app = Flask(__name__)

@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from app.models import Player, Team, Position, BestNine, BestNineSlot
 from app import db
+from flask_login import login_required
 
-main = Blueprint("main", __name__, url_prefix="/main")
+main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
@@ -40,6 +41,7 @@ def position(id):
     return render_template("position.html", position=position, players=players)
 
 @main.route("/bestnine/create", methods=["GET", "POST"])
+@login_required
 def bestnine_create():
     positions = Position.query.all()
 
