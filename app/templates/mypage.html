@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ current_user.name }}さんのマイページ{% endblock %}
+
+{% block content %}
+    <h1>{{ current_user.name }}さんのベスト9一覧</h1>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ベスト9名</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bestnine in bestnines %}
+                <tr>
+                    <td><a href="{{ url_for('main.bestnine_detail', id=bestnine.id) }}">{{ bestnine.name }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

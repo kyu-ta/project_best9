@@ -13,11 +13,20 @@
             <a href="{{ url_for('main.teams') }}" class="btn btn-primary btn-sm">チーム一覧へ</a>
             <a href="{{ url_for('main.positions') }}" class="btn btn-primary btn-sm">ポジション一覧へ</a>
             <a href="{{ url_for('main.bestnine_create') }}" class="btn btn-primary btn-sm">ベスト9作成</a>
+            <a href="{{ url_for('auth.mypage') }}" class="btn btn-primary btn-sm">マイページ</a>
             <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">ログイン</a>
         </nav>
         
         <hr>
-        
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <span style="color: red;">{{ message }}</span>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         {% block content %}
         {% endblock %}
 

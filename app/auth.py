@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from app.models import User 
+from app.models import User, BestNine
 from app import db, login_manager
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -75,4 +75,5 @@ def logout():
 @auth.route("/mypage")
 @login_required
 def mypage():
-    return render_template("mypage.html")
+    bestnines = current_user.best_nines
+    return render_template("mypage.html", bestnines=bestnines)

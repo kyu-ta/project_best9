@@ -61,7 +61,7 @@ class User(db.Model, UserMixin):
     username = Column(String(50), unique=True, nullable=False)
     password_hash = Column(String(128), nullable=False)
 
-    best_nine_id = relationship("BestNine", backref="user", lazy="select")
+    best_nines = relationship("BestNine", backref="user", lazy="select")
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

@@ -3,7 +3,7 @@
 {% block title %}ログイン{% endblock %}
 
 {% block content %}
-    <form action="{{ url_for('auth.login') }}" method="POST">
+    <form action="{{ url_for('auth.login') }}" method="POST" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>

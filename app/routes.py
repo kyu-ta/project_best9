@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models import Player, Team, Position, BestNine, BestNineSlot
 from app import db
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 main = Blueprint("main", __name__)
 
@@ -47,7 +47,14 @@ def bestnine_create():
 
     if request.method == "POST":
         bestnine_name = request.form.get("bestnine_name")
-        new_bestnine = BestNine(name=bestnine_name)
+
+        if not bestnine_name:
+            flash("ベスト9名を入力してください")
+            return render_template("bestnine_create.html", positions=positions)
+        
+        new_bestnine = BestNine(name=bestnine_name,
+                                user_id=current_user.id
+                            )
         db.session.add(new_bestnine)
         db.session.flush()
         
@@ -57,14 +64,21 @@ def bestnine_create():
             player_key = f"player_{ position.id }"    #print(player_key)などでキーを確認できる
             player_id = request.form.get(player_key)
 
-            new_bestnineslot = BestNineSlot(
+            new_bestnine_slot = BestNineSlot(
                 best_nine_id=new_bestnine.id, 
                 player_id=player_id, 
                 position_id=position.id
             )     
                         
-            db.session.add(new_bestnineslot)
+            db.session.add(new_bestnine_slot)
         db.session.commit()
         return redirect(url_for("main.bestnine_create"))
 
-    return render_template("bestnine_create.html", positions=positions)   
+    return render_template("bestnine_create.html", positions=positions)
+
+@main.route("/bestnine/<int:id>")
+@login_required
+def bestnine_detail(id):
+    bestnine = BestNine.query.get_or_404(id)    
+    return render_template("bestnine_detail.html", bestnine=bestnine)
+
