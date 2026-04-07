@@ -49,8 +49,8 @@ def bestnine_create():
         bestnine_name = request.form.get("bestnine_name")
 
         if not bestnine_name:
-            flash("ベスト9名を入力してください")
-            return render_template("bestnine_create.html", positions=positions)
+            count = BestNine.query.filter_by(user_id=current_user.id).count()
+            bestnine_name = f"{current_user.username}さんのベスト9({count + 1})"
         
         new_bestnine = BestNine(name=bestnine_name,
                                 user_id=current_user.id
@@ -72,7 +72,8 @@ def bestnine_create():
                         
             db.session.add(new_bestnine_slot)
         db.session.commit()
-        return redirect(url_for("main.bestnine_create"))
+        flash("保存しました")
+        return redirect(url_for("auth.mypage"))
 
     return render_template("bestnine_create.html", positions=positions)
 
@@ -82,3 +83,12 @@ def bestnine_detail(id):
     bestnine = BestNine.query.get_or_404(id)    
     return render_template("bestnine_detail.html", bestnine=bestnine)
 
+@main.route("/bestnine/delete/<int:id>", methods=["POST"])
+@login_required
+def bestnine_delete(id):
+    bestnine = BestNine.query.get_or_404(id)
+    db.session.delete(bestnine)
+    db.session.commit()
+    flash("ベスト9を削除しました")
+
+    return redirect(url_for("auth.mypage"))

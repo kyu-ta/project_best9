@@ -41,7 +41,11 @@ class BestNine(db.Model):
     name = Column(String(50), nullable=False)
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    best_nine_slots = relationship("BestNineSlot", backref="best_nine", lazy="select")
+    best_nine_slots = relationship("BestNineSlot",
+                                    backref="best_nine",
+                                    cascade="all, delete-orphan",#orphan-孤児
+                                    lazy="select"
+                                )
 
     def __repr__(self):
         return f"<{self.__class__.__name__}(id={self.id}, name='{self.name}')>"

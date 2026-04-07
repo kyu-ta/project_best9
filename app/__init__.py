@@ -14,7 +14,8 @@ def create_app():
     login_manager.init_app(app)
 
     login_manager.login_view = "auth.login"
-
+    login_manager.login_message = "ログインが必要です"
+    
     from .routes import main
     app.register_blueprint(main)
     from .auth import auth

@@ -1,11 +1,28 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ current_user.name }}さんの{{ bestnine.name }}{% endblock %}
+{% block title %}{{ current_user.username }}さんの{{ bestnine.name }}{% endblock %}
 
 {% block content %}
-    {{ bestnine.name }}
+    <h1>{{ bestnine.name }}</h1>
 
-    {% for slot in bestnine.best_nine_slots %}
-       {{ position.name }}
-    {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>選手</th>
+                <th>ポジション</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in bestnine.best_nine_slots %}
+                <tr>                
+                    <td><a href="{{ url_for('main.player', id=slot.player.id) }}">{{ slot.player.name }}</a></td>
+                    <td><a href="{{ url_for('main.position', id=slot.position.id) }}">{{ slot.position.name }}</a></td>
+                </tr>
+            {% endfor %}              
+        </tbody>   
+    </table>
+
+    <form action="{{ url_for('main.bestnine_delete', id=bestnine.id) }}"  style="text-align: right" method="POST">
+        <button type="submit">削除</button>
+    </form>
 {% endblock %}

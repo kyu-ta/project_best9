@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ current_user.name }}さんのマイページ{% endblock %}
+{% block title %}{{ current_user.username }}さんのマイページ{% endblock %}
 
 {% block content %}
-    <h1>{{ current_user.name }}さんのベスト9一覧</h1>
+    <h1>{{ current_user.username }}さんのベスト9一覧</h1>
     
     <table class="table">
         <thead>
