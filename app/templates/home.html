@@ -1,10 +1,13 @@
 {% extends "layout.html" %}
 
-{% block title %}私の考えるプロ野球ベスト9へようこそ{% endblock %}
+{% block title %}プロ野球ベスト9メーカーへようこそ{% endblock %}
 
 {% block content %}
-    <h1>私の考えるプロ野球ベスト9</h1>
-    <p>このアプリを使うにはログインが必要です。</p>
-
-    
+    <h1>プロ野球ベスト9メーカー</h1>
+    <p>本アプリはユーザーの考えるベスト9を作成することができます。</p>
+    <p>現在セ・リーグのみ対応。選択可能選手は各チーム9人(総勢54人)から。</p>
+    <section>
+    <p>未登録の方は<a href="{{ url_for('auth.signup') }}">こちら</a>から登録してください</p>
+    <p>登録済みの方は<a href="{{ url_for('auth.login') }}">こちら</a>からログインしてください</p>
+    </section>
 {% endblock %}

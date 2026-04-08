@@ -7,22 +7,24 @@
 </head>
 <body>
     <div class="container mt-4">
-        <nav>
-            <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-sm">ホームへ戻る</a>
-            <a href="{{ url_for('main.players') }}" class="btn btn-primary btn-sm">選手一覧へ</a>
-            <a href="{{ url_for('main.teams') }}" class="btn btn-primary btn-sm">チーム一覧へ</a>
-            <a href="{{ url_for('main.positions') }}" class="btn btn-primary btn-sm">ポジション一覧へ</a>
-            <a href="{{ url_for('main.bestnine_create') }}" class="btn btn-primary btn-sm">ベスト9作成</a>
-            <a href="{{ url_for('auth.mypage') }}" class="btn btn-primary btn-sm">マイページ</a>
-            {% if current_user.is_authenticated %}
-                <form action="{{ url_for('auth.logout') }}" method="POST" style="display: inline;">
-                    <button class="btn btn-primary btn-sm">ログアウト</button>
-                </form>
-            {% else %}
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">ログイン</a>
-            {% endif %}
-        </nav>
-        
+        <header>
+            <nav>
+                <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-sm">ホームへ戻る</a>
+                <a href="{{ url_for('main.players') }}" class="btn btn-primary btn-sm">選手一覧へ</a>
+                <a href="{{ url_for('main.teams') }}" class="btn btn-primary btn-sm">チーム一覧へ</a>
+                <a href="{{ url_for('main.positions') }}" class="btn btn-primary btn-sm">ポジション一覧へ</a>
+                <a href="{{ url_for('main.bestnine_create') }}" class="btn btn-primary btn-sm">ベスト9作成</a>
+                <a href="{{ url_for('auth.mypage') }}" class="btn btn-primary btn-sm">マイページ</a>
+                {% if current_user.is_authenticated %}
+                    <form action="{{ url_for('auth.logout') }}" method="POST" style="display: inline;">
+                        <button class="btn btn-primary btn-sm">ログアウト</button>
+                    </form>
+                {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">ログイン</a>
+                {% endif %}
+            </nav>
+        </header>
+
         <hr>
 
         {% with messages = get_flashed_messages() %}
@@ -32,10 +34,10 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-
-        {% block content %}
-        {% endblock %}
-
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>      
     
     </div>
 </body>

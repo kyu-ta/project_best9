@@ -2,6 +2,7 @@ from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 from config import Config
 from .extensions import db, migrate, admin, login_manager
+from .errors import register_error_handlers
 
 def create_app():
     app = Flask(__name__)
@@ -25,5 +26,7 @@ def create_app():
     target_models = [models.Team, models.Position, models.Player, models.BestNine, models.BestNineSlot]
     for model in target_models:
         admin.add_view(ModelView(model, db.session))
+
+    register_error_handlers(app)
 
     return app

@@ -11,7 +11,7 @@
             <label class="d-block mb-0">{{ position.name }}</label>
             <select name="player_{{ position.id }}">
                 {% for player in position.players %}
-                    <option value="{{ player.id }}">{{ player.name }}</option>
+                    <option value="{{ player.id }}">{{ player.name }}({{ player.team.name }})</option>
                 {% endfor %}
             </select>
         {% endfor %}
