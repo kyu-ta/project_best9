@@ -3,7 +3,12 @@
 {% block title %}{{ current_user.username }}さんの{{ bestnine.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ bestnine.name }}</h1>
+    <h1 class="d-flex align-items-baseline gap-3">
+            <span>{{ bestnine.name }}</span>
+            <small class="text-muted fs-6">
+                作成日時{{ bestnine.created_at_jst.strftime("%Y-%m-%d-%H:%M") }}
+            </small>
+    </h1>
 
     <table class="table">
         <thead>

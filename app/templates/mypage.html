@@ -9,12 +9,14 @@
         <thead>
             <tr>
                 <th>ベスト9名</th>
+                <th>作成日時</th>
             </tr>
         </thead>
         <tbody>
             {% for bestnine in bestnines %}
                 <tr>
                     <td><a href="{{ url_for('main.bestnine_detail', id=bestnine.id) }}">{{ bestnine.name }}</a></td>
+                    <td>{{ bestnine.created_at_jst.strftime("%Y-%m-%d-%H:%M") }}</td>
                 </tr>
             {% endfor %}
         </tbody>

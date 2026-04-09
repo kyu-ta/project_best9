@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from app.models import Player, Team, Position, BestNine, BestNineSlot
 from app import db
 from flask_login import login_required, current_user
+from zoneinfo import ZoneInfo
 
 main = Blueprint("main", __name__)
 
@@ -47,7 +48,7 @@ def bestnine_create():
 
     if request.method == "POST":
         bestnine_name = request.form.get("bestnine_name")
-
+        
         if not bestnine_name:
             count = BestNine.query.filter_by(user_id=current_user.id).count()
             bestnine_name = f"{current_user.username}さんのベスト9({count + 1})"
@@ -80,7 +81,9 @@ def bestnine_create():
 @main.route("/bestnine/<int:id>")
 @login_required
 def bestnine_detail(id):
-    bestnine = BestNine.query.get_or_404(id)    
+    bestnine = BestNine.query.get_or_404(id)
+    print(bestnine.created_at)
+    print(bestnine.created_at.tzinfo)
     return render_template("bestnine_detail.html", bestnine=bestnine)
 
 @main.route("/bestnine/delete/<int:id>", methods=["POST"])

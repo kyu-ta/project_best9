@@ -1,5 +1,7 @@
 from app import db
-from sqlalchemy import Column, Integer, String, ForeignKey
+from datetime import datetime, UTC
+from zoneinfo import ZoneInfo
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,7 +28,7 @@ class Position(db.Model):
 
 class Player(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True, nullable=False)
+    name = Column(String(50), nullable=False)
 
     team_id = Column(Integer, ForeignKey("team.id"), nullable=False)
     position_id = Column(Integer, ForeignKey("position.id"), nullable=False)
@@ -39,7 +41,18 @@ class Player(db.Model):
 class BestNine(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
-
+    created_at = Column(DateTime, default=lambda:datetime.now(UTC).replace(tzinfo=None), nullable=False)
+    
+    @property
+    def created_at_jst(self):
+        if self.created_at is None:
+            return None
+        if self.created_at.tzinfo is None:
+            utc_dt = self.created_at.replace(tzinfo=UTC)
+        else:
+            utc_dt = self.created_at
+        return utc_dt.astimezone(ZoneInfo("Asia/Tokyo"))
+    
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     best_nine_slots = relationship("BestNineSlot",
                                     backref="best_nine",

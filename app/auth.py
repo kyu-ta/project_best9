@@ -75,5 +75,5 @@ def logout():
 @auth.route("/mypage")
 @login_required
 def mypage():
-    bestnines = current_user.best_nines
+    bestnines = current_user.best_nines 
     return render_template("mypage.html", bestnines=bestnines)
